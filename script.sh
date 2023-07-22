@@ -1,0 +1,20 @@
+OPENCV_VERSION='4.2.0'       # Version to be installed
+OPENCV_CONTRIB='YES'          # Install OpenCV's extra modules (YES/NO)
+cd build
+
+if [ $OPENCV_CONTRIB = 'NO' ]; then
+cmake -DWITH_QT=ON -DWITH_OPENGL=ON -DFORCE_VTK=ON -DWITH_TBB=ON -DWITH_GDAL=ON \
+      -DWITH_XINE=ON -DENABLE_PRECOMPILED_HEADERS=OFF -DOPENCV_GENERATE_PKGCONFIG=YES ..
+fi
+
+if [ $OPENCV_CONTRIB = 'YES' ]; then
+cmake -DWITH_QT=ON -DWITH_OPENGL=ON -DFORCE_VTK=ON -DWITH_TBB=ON -DWITH_GDAL=ON \
+      -DWITH_XINE=ON -DENABLE_PRECOMPILED_HEADERS=OFF \
+      -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules \
+      -DOPENCV_GENERATE_PKGCONFIG=YES ..
+fi
+
+make -j4
+sudo make install
+sudo ldconfig
+
